@@ -1,118 +1,116 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
+import React, { useState, useEffect } from 'react'; 
 
-const inter = Inter({ subsets: ["latin"] });
+function StepperProductNew() {
+    const [activeStep, setActiveStep] = useState(0);
 
-export default function Home() {
-  return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    const steps = [
+        {
+            id: 'step-1',
+            title: 'Create your Pay.com account.',
+            description: 'Fill out the quick form and click the button.',
+            image: 'https://assets-global.website-files.com/60d1a7bfc316d6ff624f643c/63b6b933133ca720b91c72bd_Step%2001.webp'
+        },
+        {
+            id: 'step-2',
+            title: 'Check your email.',
+            description: 'Open the message from Pay.com and click the link to open your business account activation form.',
+            image: 'https://assets-global.website-files.com/60d1a7bfc316d6ff624f643c/63b6b933eb475a2de30743a8_Step%2002.webp'
+        },
+        {
+            id: 'step-3',
+            title: 'Answer a few questions',
+            description: 'about your business and submit the required documentation.',
+            image: 'https://assets-global.website-files.com/60d1a7bfc316d6ff624f643c/63b6b933133ca705711c72be_Step%2003.webp'
+        },
+        {
+            id: 'step-4',
+            title: 'We’ll review your application',
+            description: 'and get back to you as soon as possible. In the meantime, you can start setting up your API integration.',
+            image: 'https://assets-global.website-files.com/60d1a7bfc316d6ff624f643c/63b6b933e43b6b923e88fe52_Step%2004.webp'
+        },
+        {
+            id: 'step-5',
+            title: 'You can start receiving payments',
+            description: 'once your account is approved!',
+            image: 'https://assets-global.website-files.com/60d1a7bfc316d6ff624f643c/63bc2f7b32803f83952f30e8_Step%2005.png'
+        }
+    ];
+
+    useEffect(() => {
+        const observerCallback = (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const index = steps.findIndex(step => step.id === entry.target.id);
+                    setActiveStep(index);
+                } 
+            });
+        };
+
+        const observerOptions = {
+            threshold: 1
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+        steps.forEach(step => observer.observe(document.getElementById(step.id)));
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [steps]);
+
+    const handleStepClick = (e,index) => {
+        e.preventDefault();
+        // setActiveStep(index);
+        document.getElementById(steps[index].id).scrollIntoView({ behavior: 'smooth' });
+    };
+
+    return (
+        <div className="section sticky-split-stepper">
+            <div className="container">
+                <h2 className="centerd">How to start accepting online payments</h2>
+                <div className="sticky-steps-section-wrapper">
+                    <div className="wrapper-sticky-colum-steps">
+                        <div className="flex-horizontal">
+                            <div className="stepper-text-links-wrapper">
+                                {steps.map((step, index) => (
+                                    <a key={index} href="#" className={`cursor-pointer stepper-num-link w-inline-block ${index === activeStep ? 'w--current' : ''}`} onClick={(e) => handleStepClick(e,index)}>
+                                        <div className='cursor-pointer'>{index + 1}</div>
+                                    </a>
+                                ))}
+                                <div className="grid-filler-inside-stepper" style={{ height: `${74 * (activeStep + 1)}px`}}></div>
+                            </div>
+                            <div className="stepper-text-links-wrapper no-bg">
+                                {steps.map((step, index) => (
+                                    <button key={index} style={{ backgroundColor: 'inherit'}} className={`cursor-pointer stepper-text-link w-inline-block ${index === activeStep ? 'w--current' : ''}`} onClick={(e) => handleStepClick(e,index)}>
+                                        <div>{step.title}</div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="aside-sticky-content">
+                        {steps.map((step, index) => (
+                            <div key={index} id={step.id} className={`step-feature-wrapper`} style={{ willChange: "opacity", opacity: 1 }}>
+                                {/* step-feature-wrapper */}
+                                {/* split-content-wrapper new-id fixed-inside-step active-op */}
+                                <div className={`split-content-wrapper new-id fixed-inside-step ${index === activeStep ? 'active-op' : ''}`}>
+                                    <div className="z-index-1">
+                                        <h3>{step.title}<br /></h3>
+                                        <p className="hide-on-mobile">{step.description}<br /></p>
+                                    </div>
+                                    <div className="image-z-inex-2">
+                                        <img src={step.image} loading="lazy" width="290" alt="Step" className="image-stepper-mobile-mockup" />
+                                    </div>
+                                    <img src="https://assets-global.website-files.com/60d1a7bfc316d6ff624f643c/6203e943f4c9f1850c4e6b7c_Grid-2-dot.svg"
+                                        loading="lazy" alt="" className="image-absolute opacity-20p hide-on-mobile" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+    );
 }
+
+export default StepperProductNew;
