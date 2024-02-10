@@ -113,7 +113,7 @@ p {
 .split-content-wrapper.new-id.fixed-inside-step.active-op {
   opacity: 1;
   transition: all .4s;
-  transform: scale(1.05)
+  transform: scale(1.02)
 }
 
 .aside-sticky-content {

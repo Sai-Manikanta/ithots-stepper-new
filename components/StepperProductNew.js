@@ -90,7 +90,7 @@ function StepperProductNew() {
     return (
         <div className="section sticky-split-stepper">
             <div className="container">
-                <h2 className="centerd">How to start accepting online payments</h2>
+                <h2 className="centerd mb-20">How to start accepting online payments</h2>
                 <div className="sticky-steps-section-wrapper">
                     <div className="wrapper-sticky-colum-steps" ref={scrollRef}>
                         <div className="flex-horizontal">
