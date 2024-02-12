@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'; 
-
+// Removed flex between
 function StepperProductNew() {
     const [activeStep, setActiveStep] = useState(null);
     const [visibilityPercentage, setVisibilityPercentage] = useState(0);
@@ -30,35 +30,30 @@ function StepperProductNew() {
         {
             id: 'step-1',
             title: 'Create your Pay.com account.',
-            stepperTitle: 'Sign Up',
             description: 'Fill out the quick form and click the button.',
             image: 'https://assets-global.website-files.com/60d1a7bfc316d6ff624f643c/63b6b933133ca720b91c72bd_Step%2001.webp'
         },
         {
             id: 'step-2',
             title: 'Check your email.',
-            stepperTitle: 'Verify your mail',
             description: 'Open the message from Pay.com and click the link to open your business account activation form.',
             image: 'https://assets-global.website-files.com/60d1a7bfc316d6ff624f643c/63b6b933eb475a2de30743a8_Step%2002.webp'
         },
         {
             id: 'step-3',
             title: 'Answer a few questions',
-            stepperTitle: 'Fill in a quick form',
             description: 'about your business and submit the required documentation.',
             image: 'https://assets-global.website-files.com/60d1a7bfc316d6ff624f643c/63b6b933133ca705711c72be_Step%2003.webp'
         },
         {
             id: 'step-4',
             title: 'We’ll review your application',
-            stepperTitle: 'Application review',
             description: 'and get back to you as soon as possible. In the meantime, you can start setting up your API integration.',
             image: 'https://assets-global.website-files.com/60d1a7bfc316d6ff624f643c/63b6b933e43b6b923e88fe52_Step%2004.webp'
         },
         {
             id: 'step-5',
             title: 'You can start receiving payments',
-            stepperTitle: 'Go Live',
             description: 'once your account is approved!',
             image: 'https://assets-global.website-files.com/60d1a7bfc316d6ff624f643c/63bc2f7b32803f83952f30e8_Step%2005.png'
         }
@@ -93,55 +88,43 @@ function StepperProductNew() {
         document.getElementById(steps[index].id).scrollIntoView({ behavior: 'smooth' });
     };
 
-    const getGradientHeight = (activeStep) => {
-        if(activeStep === 0){
-            return `${(69 * ((activeStep) + 1)) - 10}px`
-        }
-        if(activeStep === 4){
-            return `${(69 * ((activeStep) + 1)) + 40}px`
-        }   
-        return `${(69 * ((activeStep) + 1))}px`
-    }
-
     return (
         <div className="section sticky-split-stepper">
             <div className="container">
                 <h2 className="centerd mb-20">How to start accepting online payments</h2>
-                <div className="sticky-steps-section-wrapper">
+                <div className="sticky-steps-section-wrapper" style={{ border: '2px solid gold'}}>
                     {/* ref={scrollRef} */}
-                    <div className="wrapper-sticky-colum-steps">
+                    <div className="wrapper-sticky-colum-steps" style={{ border: '1px solid blue' }}>
                         <div className="flex-horizontal">
-                            <div className="stepper-text-links-wrapper" style={{ flexShrink: 0 }} ref={scrollRef}>
+                            <div className="stepper-text-links-wrapper" ref={scrollRef}>
                                 {steps.map((step, index) => (
                                     <a key={index} href="#" className={`cursor-pointer stepper-num-link w-inline-block ${index === activeStep ? 'w--current' : ''}`} onClick={(e) => handleStepClick(e,index)}>
                                         <div className='cursor-pointer'>{index + 1}</div>
                                     </a>
                                 ))}
-                                {/* style={{ height: `${74 * (activeStep + 1)}px`}} */}
-                                {/* `${(69 * ((activeStep) + 1)) + 40}px` */}
-                                <div className="grid-filler-inside-stepper" style={{ borderRadius: '50px', height: getGradientHeight(activeStep)}}></div>
+                                <div className="grid-filler-inside-stepper" style={{ height: `${74 * (activeStep + 1)}px`}}></div>
                             </div>
                             <div className="stepper-text-links-wrapper no-bg">
                                 {steps.map((step, index) => (
                                     <button key={index} style={{ backgroundColor: 'inherit'}} className={`cursor-pointer stepper-text-link w-inline-block ${index === activeStep ? 'w--current' : ''}`} onClick={(e) => handleStepClick(e,index)}>
-                                        <div>{step.stepperTitle}</div>
+                                        <div>{step.title}</div>
                                     </button>
                                 ))}
                             </div>
                         </div>
                     </div>
-                    <div className="aside-sticky-content"  style={{  flexGrow: 1 }}>
+                    <div className="aside-sticky-content"  style={{ border: '1px solid blue', flexGrow: 1 }}>
                         {steps.map((step, index) => (
                             // , opacity: visibilityPercentage === 100 ? 1 : 0
-                            <div key={index} id={step.id} className={`step-feature-wrapper`} style={{ willChange: "opacity", opacity: visibilityPercentage >= 80 ? 1 : 0 }}>
+                            <div key={index} id={step.id} className={`step-feature-wrapper`} style={{ willChange: "opacity", border: '1px solid white', opacity: visibilityPercentage >= 80 ? 1 : 0 }}>
                                 {/* step-feature-wrapper */}
                                 {/* split-content-wrapper new-id fixed-inside-step active-op */}
-                                <div className={`split-content-wrapper new-id fixed-inside-step ${index === activeStep ? 'active-op' : ''}`}>
-                                    <div className="z-index-1" style={{ zIndex: '-2' }}>
+                                <div className={`split-content-wrapper new-id fixed-inside-step ${index === activeStep ? 'active-op' : ''}`} style={{ border: '1px solid white' }}>
+                                    <div className="z-index-1">
                                         <h3 className='text-xl'>{step.title}<br /></h3>
                                         <p className="hide-on-mobile">{step.description}<br /></p>
                                     </div>
-                                    <div className="image-z-inex-2" style={{ zIndex: '-2' }}>
+                                    <div className="image-z-inex-2">
                                         <img src={step.image} loading="lazy" width="290" alt="Step" className="image-stepper-mobile-mockup" />
                                     </div>
                                     <img src="https://assets-global.website-files.com/60d1a7bfc316d6ff624f643c/6203e943f4c9f1850c4e6b7c_Grid-2-dot.svg"

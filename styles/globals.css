@@ -124,7 +124,7 @@ p {
 }
 
 .flex-horizontal {
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   flex: 0 auto;
   align-content: flex-start;
   align-items: stretch;
@@ -207,10 +207,10 @@ p {
 }
 
 .grid-filler-inside-stepper {
-  width: 74px;
+  width: 84px;
   height: 0;
   background-image: linear-gradient(to bottom, #57e5b2, #adabff);
-  border-radius: 100px;
+  /* border-radius: 100px; */
   transition: all .2s;
   position: absolute;
   top: 0
@@ -294,7 +294,7 @@ p {
   }
 
   .flex-horizontal {
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       margin-bottom: 0
   }
 
@@ -395,6 +395,10 @@ p {
 
   .step-feature-wrapper {
       min-width: 74vw
+  }
+
+  .grid-filler-inside-stepper {
+    width: 52px;
   }
 }
 
